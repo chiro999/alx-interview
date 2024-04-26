@@ -3,45 +3,58 @@
 
 
 def minOperations(n):
-    '''Calculates the fewest number of
-    operations needed to result in exactly n 'H'
+    '''calculates the fewest number of
+    operations needed to result in exactly n H
     characters in this file.
-
-    Args:
-        n (int): The desired number of 'H' characters.
-
     Returns:
-        int: The minimum number of operations required.
-             If n is impossible to achieve, returns 0.
+        Integer : if n is impossible to achieve, return 0
     '''
-    pasted_chars = 1  # Tracks how many chars are currently in the file.
-    clipboard = 0     # Tracks how many 'H's are copied to the clipboard.
-    counter = 0       # Counts the number of operations performed.
+    pasted_chars = 1  # how many chars in the file
+    clipboard = 0  # how many H's copied
+    counter = 0  # operations counter
 
     while pasted_chars < n:
+        # if did not copy anything yet
         if clipboard == 0:
-            # If clipboard is empty, copy all characters.
+            # copyall
             clipboard = pasted_chars
-            counter += 1  # Increment operations counter.
+            # increment operations counter
+            counter += 1
 
+        # if haven't pasted anything yet
         if pasted_chars == 1:
-            # If no characters are pasted yet, paste.
+            # paste
             pasted_chars += clipboard
-            counter += 1  # Increment operations counter.
-            continue  # Continue to the next iteration.
+            # increment operations counter
+            counter += 1
+            # continue to next loop
+            continue
 
-        remaining = n - pasted_chars  # Calculate remaining characters to paste.
-
-        if remaining < clipboard or remaining % pasted_chars != 0:
-            # Check if it's impossible to achieve n characters.
-            # If remaining characters are less than clipboard size,
-            # or if remaining cannot be divided evenly by pasted_chars,
-            # it's impossible to achieve n characters.
+        remaining = n - pasted_chars  # remaining chars to Paste
+        # check if impossible by checking if clipboard
+        # has more than needed to reach the number desired
+        # which also means num of chars in file is equal
+        # or more than in the clipboard.
+        # in both situations it's impossible to achieve n of chars
+        if remaining < clipboard:
             return 0
 
-        # If remaining can be divided evenly by pasted_chars,
-        # paste the clipboard; otherwise, copy all and then paste.
-        pasted_chars += clipboard
-        counter += 1 if remaining % pasted_chars else 2  # Increment operations counter.
+        # if can't be devided
+        if remaining % pasted_chars != 0:
+            # paste current clipboard
+            pasted_chars += clipboard
+            # increment operations counter
+            counter += 1
+        else:
+            # copyall
+            clipboard = pasted_chars
+            # paste
+            pasted_chars += clipboard
+            # increment operations counter
+            counter += 2
 
-    return counter if pasted_chars == n else 0  # Return the operations counter if n is achieved; otherwise, return 0.
+    # if got the desired result
+    if pasted_chars == n:
+        return counter
+    else:
+        return 0
